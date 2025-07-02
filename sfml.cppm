@@ -20,15 +20,16 @@ export namespace sf {
 	using ::sf::degrees;
 	using ::sf::ContextSettings;
 	using ::sf::State;
+	using ::sf::Vector2f;
+	using ::sf::Font;
+	using ::sf::Text;
 }
-
 
 export namespace sf::Keyboard {
 	using ::sf::Keyboard::isKeyPressed;
 	using ::sf::Keyboard::Scancode;
 	using ::sf::Keyboard::Key;
 }
-
 
 export namespace sf::Style {
 	using ::sf::Style::Default;
