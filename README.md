@@ -28,7 +28,9 @@ This project demonstrates using C++23 modules with [SFML 3.x](https://www.sfml-d
 
 ```sh
 git clone https://github.com/hentai0721/SFML3-Test-CXX23Modules.git
+```
 
+```sh
 cd SFML3-Test-CXX23Modules
 ```
 
