@@ -46,6 +46,15 @@ void hentai::exec() {
   text.setOutlineColor({255, 41, 35});
   text.setStyle(sf::Text::Style::Underlined);
 
+  sf::Text text0(font);
+  text0.setCharacterSize(20);
+  text0.setPosition({240, 100});
+  text0.setFillColor(sf::Color::White);
+  text0.setOutlineThickness(1.f);
+  text0.setLetterSpacing(2.f);
+  text0.setOutlineColor({255, 41, 35});
+  text0.setStyle(sf::Text::Style::Underlined);
+
   sf::Text text1(font);
   text1.setCharacterSize(20);
   text1.setPosition({10, 10});
@@ -72,9 +81,14 @@ void hentai::exec() {
       text.setString(coro.current_value().value());
     }
   }};
-  if (coro.current_value().has_value()) {
-    text.setString(coro.current_value().value());
-  }
+
+  auto coro0 = zoned_time_sequence<10U>(2996);
+  std::jthread uwu{[&coro0, &text0](std::stop_token running) {
+    while (!running.stop_requested() && coro0.has_value()) {
+      text0.setString(coro0.current_value().value());
+    }
+  }};
+
   text1.setString(std::format("size => {}", sizeof(ShapeUtils)));
   while (window.isOpen()) {
     while (const std::optional event = window.pollEvent()) {
@@ -82,6 +96,7 @@ void hentai::exec() {
         window.close();
       }
       if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+        [[assume(keyPressed)]];
         if (keyPressed->scancode == sf::Keyboard::Scancode::F4 && keyPressed->alt)
               window.close();
       }
@@ -94,11 +109,13 @@ void hentai::exec() {
     // test1->draw();
     test0->draw();
     window.draw(text1);
+    window.draw(text0);
     window.draw(text);
     test0->moveShape();
     window.display();
   }
   running.store(false, std::memory_order_release);
+  uwu.request_stop();
 }
 
 namespace hentai {
