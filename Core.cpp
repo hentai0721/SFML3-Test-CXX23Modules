@@ -4,17 +4,17 @@ template <std::unsigned_integral auto TIME>
 
 hentai::Task<std::string> zoned_time_sequence(std::size_t size) {
   for (std::size_t i = 0; i <= size; ++i) {
-  #if !defined(_MSC_VER)
+#if !defined(_MSC_VER)
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
     char time[32];
     std::strftime(time, sizeof(time), "%Y/%m/%d %H:%M:%S", std::localtime(&t));
-    co_yield std::format("{}  [{}]",std::string{time},i);
-  #else
+    co_yield std::format("{}  [{}]", std::string{time}, i);
+#else
     auto local_zone = std::chrono::current_zone();
     std::chrono::zoned_time time{local_zone, std::chrono::system_clock::now()};
-    co_yield std::format("{:%Y/%m/%d %X}  [{}]",time,i);
-  #endif
+    co_yield std::format("{:%Y/%m/%d %X}  [{}]", time, i);
+#endif
     co_await hentai::await{std::chrono::milliseconds(TIME)};
     if (i == size) {
       i = 0;
@@ -60,19 +60,18 @@ void hentai::exec() {
                 {83, 148, 255}, {1000.0f, 15.0f});
   test1->create({50, 200}, {40, 50}, {156, 57, 241});
 
-  std::println("size => {}", sizeof(ShapeUtils));
-
   std::random_device rd;
   std::mt19937 rng(rd());
   std::uniform_real_distribution<float> dist{3.0f, 150.0f};
   std::bernoulli_distribution rand{0.01f};
-
+  
+  std::atomic<bool> running{true};
   auto coro = zoned_time_sequence<30U>(2996);
-  std::thread{[&coro, &text] {
-    while (coro.has_value()) {
+  std::jthread owo{[&coro, &text, &running] {
+    while (running.load(std::memory_order_acquire) && coro.has_value()) {
       text.setString(coro.current_value().value());
     }
-  }}.detach();
+  }};
   if (coro.current_value().has_value()) {
     text.setString(coro.current_value().value());
   }
@@ -83,9 +82,8 @@ void hentai::exec() {
         window.close();
       }
       if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-        if (keyPressed->scancode == sf::Keyboard::Scancode::LAlt &&
-            keyPressed->scancode == sf::Keyboard::Scancode::F4)
-          window.close();
+        if (keyPressed->scancode == sf::Keyboard::Scancode::F4 && keyPressed->alt)
+              window.close();
       }
     }
 
@@ -93,13 +91,14 @@ void hentai::exec() {
       test0->setSize({dist(rng), dist(rng)});
 
     window.clear({49, 51, 49});
-    //test1->draw();
+    // test1->draw();
     test0->draw();
     window.draw(text1);
     window.draw(text);
     test0->moveShape();
     window.display();
   }
+  running.store(false, std::memory_order_release);
 }
 
 namespace hentai {
