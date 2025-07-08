@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0.3)
+cmake_minimum_required(VERSION 3.31)
 
 set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_STANDARD 23)
@@ -7,10 +7,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 set(CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:DebugDLL>")
-#set(SFML_DIR "C:/Users/henta/Downloads/SFML-3.0.1/lib/cmake/SFML")
-#set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
 set(SFML_STATIC_LIBRARIES ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
 
 project(HENTAI LANGUAGES CXX)
 
@@ -21,9 +20,17 @@ add_executable(hentai WIN32)
 target_sources(hentai
     PUBLIC
     FILE_SET modules TYPE CXX_MODULES FILES
-    sfml.cppm Core-concepts.cppm Core.cppm
+    modules/core/core.cppm 
+    modules/core/core-concepts.cppm
+    modules/core/core-coroutines.cppm 
+    modules/core/core-math.cppm 
+    modules/core/core-ui.cppm 
+    modules/core/core-utils.cppm 
+    modules/sfml/sfml.cppm
+
     PRIVATE
-    Core.cpp main.cpp
+    src/core/core.cpp 
+    src/main.cpp
 )
 
 add_custom_target(run

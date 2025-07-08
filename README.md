@@ -39,7 +39,7 @@ cd SFML3-Test-CXX23Modules
 #### Windows (MSVC)
 
 ```sh
-cmake -B build -G "Visual Studio 17 2022" -DSFML_DIR="/path/to/SFML-3.0.1/lib/cmake/SFML" -DCMAKE_PREFIX_PATH="/path/to/SFML-3.0.1"
+cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="/path/to/SFML-3.0.1"
 ```
 
 ```sh
@@ -65,7 +65,7 @@ cmake --build build --config Release --target run
 ## Notes
 
 - C++23 modules are still experimental in many toolchains. If you encounter build issues, try updating your compiler and CMake.
-- If you use a custom SFML install location, be sure to set both `SFML_DIR` and `CMAKE_PREFIX_PATH` accordingly (especially for MSVC builds) so that CMake can locate the SFML libraries and configuration files.
+- If you use a custom SFML install location, be sure to set `CMAKE_PREFIX_PATH` accordingly (especially for MSVC builds) so that CMake can locate the SFML libraries and configuration files.
 - For MSVC builds, make sure to run all commands in the "x64 Native Tools Command Prompt for VS 2022" environment to ensure all required compiler and linker tools are available in your PATH.
 - For MSYS2/Clang64, ensure all build commands are executed within the `clang64` MSYS2 shell to use the correct compiler and environment.
 - The line `set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")` in the CMakeLists.txt enables experimental support for importing the C++ standard library as a module.  

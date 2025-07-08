@@ -1,4 +1,4 @@
-import Core;
+import core;
 
 int main(){
 	hentai::exec();

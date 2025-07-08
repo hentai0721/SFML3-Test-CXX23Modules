@@ -1,4 +1,4 @@
-export module Core:concepts;
+export module core:concepts;
 import std;
 
 export template <typename T>
