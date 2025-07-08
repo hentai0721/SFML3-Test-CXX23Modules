@@ -17,8 +17,9 @@ public:
       return {};
     }
     [[noreturn]] void unhandled_exception() { std::terminate(); }
-    std::suspend_always yield_value(T &&value) noexcept {
-      current_value = std::forward<T>(value);
+    
+    std::suspend_always yield_value(auto &&value) noexcept {
+      current_value = std::forward<decltype(value)>(value);
       return {};
     }
     constexpr void return_void() noexcept {}
