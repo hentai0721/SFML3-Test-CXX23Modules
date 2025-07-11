@@ -5,24 +5,45 @@ import :concepts;
 
 export namespace hentai {
 
+template <hasChrono T> class await {
+public:
+  consteval explicit await(T _setTime) noexcept : setTime(_setTime) {}
+  consteval bool await_ready() noexcept { return false; }
+  constexpr void await_suspend(std::coroutine_handle<> handle) noexcept {
+    std::this_thread::sleep_for(setTime);
+    if (handle && !handle.done())
+      handle.resume();
+  }
+  consteval void await_resume() noexcept {}
+
+private:
+  T setTime;
+};
+
 template <typename T> class Task {
 public:
   class promise_type {
   public:
-    auto get_return_object() {
+    constexpr static auto get_return_object_on_allocation_failure() {
+      return Task{nullptr};
+    }
+    constexpr auto get_return_object() {
       return Task{std::coroutine_handle<promise_type>::from_promise(*this)};
     }
     std::suspend_always initial_suspend() { return {}; }
-    std::suspend_always final_suspend() noexcept {
-      return {};
-    }
+    std::suspend_always final_suspend() noexcept { return {}; }
     [[noreturn]] void unhandled_exception() { std::terminate(); }
-    
-    std::suspend_always yield_value(auto &&value) noexcept {
+
+    constexpr std::suspend_always yield_value(auto &&value) noexcept {
       current_value = std::forward<decltype(value)>(value);
       return {};
     }
-    constexpr void return_void() noexcept {}
+
+    consteval auto await_transform(hasAwait auto time) {
+      return decltype(time){time};
+    }
+
+    consteval void return_void() noexcept {}
 
   private:
     friend class Task<T>;
@@ -30,13 +51,11 @@ public:
   };
 
   Task(const Task &) = delete;
-  Task& operator=(const Task &) = delete;
-  
-  Task(Task && other) noexcept : handle(other.handle) {
-    other.handle = nullptr;
-  }
+  Task &operator=(const Task &) = delete;
 
-  Task& operator=(Task && other) noexcept {
+  Task(Task &&other) noexcept : handle(other.handle) { other.handle = nullptr; }
+
+  Task &operator=(Task &&other) noexcept {
     if (this != &other) {
       if (handle)
         handle.destroy();
@@ -46,22 +65,21 @@ public:
     return *this;
   }
 
-  explicit Task(std::coroutine_handle<promise_type> _handle) : handle(_handle) {}
+  explicit Task(std::coroutine_handle<promise_type> _handle)
+      : handle(_handle) {}
   ~Task() {
     if (handle)
       handle.destroy();
   }
 
-  auto has_value() -> bool {
-    if (handle) [[likely]] {
+  [[nodiscard("hentai!!!")]] auto has_value() -> bool {
+    if (handle && !handle.done())
       handle.resume();
-      return !handle.done();
-    } else [[unlikely]] {
-      return false;
-    }
+    return !handle.done();
   }
-  [[nodiscard("hentai!")]] auto current_value() -> std::optional<T> {
-    if (!handle.done()) [[likely]] {
+
+  [[nodiscard("hentai!!!")]] auto current_value() -> std::optional<T> {
+    if (handle && !handle.done()) [[likely]] {
       return handle.promise().current_value;
     } else [[unlikely]] {
       return std::nullopt;
@@ -69,7 +87,7 @@ public:
   }
 
   class iterator {
-    public:
+  public:
     using iterator_category = std::input_iterator_tag;
     using value_type = T;
     using difference_type = std::ptrdiff_t;
@@ -80,11 +98,10 @@ public:
         : handle(_handle) {}
     reference operator*() const { return *handle.promise().current_value; }
     pointer operator->() const { return &*handle.promise().current_value; }
-    
+
     iterator &operator++() {
-      if (handle && !handle.done()) {
+      if (handle && !handle.done())
         handle.resume();
-      }
       return *this;
     }
 
@@ -97,10 +114,10 @@ public:
     friend bool operator==(const iterator &it, std::default_sentinel_t) {
       return !it.handle || it.handle.done();
     }
-    private:
+
+  private:
     std::coroutine_handle<promise_type> handle;
   };
-
 
   iterator begin() {
     if (handle && !handle.done())
@@ -114,21 +131,4 @@ private:
   std::coroutine_handle<promise_type> handle;
 };
 
-
-template <hasChrono T> class await {
-public:
-  consteval explicit await(T _setTime) noexcept : setTime(_setTime) {}
-  bool await_ready() noexcept { return false; }
-  void await_suspend(std::coroutine_handle<> handle) noexcept {
-    std::this_thread::sleep_for(setTime);
-    if (!handle.done())
-      handle.resume();
-  }
-  void await_resume() noexcept {}
-
-private:
-  T setTime;
-};
-
 } // namespace hentai
-

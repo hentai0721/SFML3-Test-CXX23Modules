@@ -15,26 +15,14 @@ hentai::Task<std::string> hentai::zoned_time_sequence(std::size_t size) {
     std::chrono::zoned_time time{local_zone, std::chrono::system_clock::now()};
     co_yield std::format("{:%Y/%m/%d %X}  [{}]", time, i);
 #endif
-    co_await hentai::await{std::chrono::milliseconds(TIME)};
+    co_await hentai::await{std::chrono::milliseconds{TIME}};
     if (i == size) {
       i = 0;
     }
   }
 }
 
-template <std::unsigned_integral auto TIME>
-
-hentai::Task<int> test(int num) {
-  for (int i = 0; i < num; ++i) {
-    co_yield i;
-    co_await hentai::await{std::chrono::milliseconds(TIME)};
-  }
-}
-
 void hentai::exec() {
-  auto tt = test<15U>(10);
-  for(auto i : tt | std::views::transform([](auto i){return i << 1;}) | std::views::drop(5))
-    std::println("msg => {}",i);
   sf::ContextSettings settings;
   settings.antiAliasingLevel = 8;
   sf::RenderWindow window{sf::VideoMode({800, 600}), L"変態",
@@ -43,10 +31,8 @@ void hentai::exec() {
   window.setVerticalSyncEnabled(true);
 
   sf::Font font;
-  if (!font.openFromFile("assets/font/arial.ttf")) {
-    window.close();
+  if (!font.openFromFile("assets/font/arial.ttf"))
     return;
-  }
 
   font.setSmooth(true);
   sf::Text text(font);
@@ -91,7 +77,7 @@ void hentai::exec() {
   test1->create({50, 200}, {40, 50}, {156, 57, 241});
 
   std::random_device rd;
-  std::mt19937 rng(rd());
+  std::mt19937 rng{rd()};
   std::uniform_real_distribution<float> dist{3.0f, 150.0f};
   std::bernoulli_distribution rand{0.01f};
 
@@ -226,7 +212,6 @@ void ShapeUtils::moveShape() {
       rectBox.setPosition({x_Pos, -rectBox.getSize().y});
     }
   }
-
 };
 
 } // namespace hentai

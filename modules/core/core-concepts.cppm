@@ -18,3 +18,11 @@ concept hasChrono = requires(T t) {
   typename T::period;
   { t.count() } -> std::same_as<typename T::rep>;
 };
+
+export template <typename T>
+
+concept hasAwait = requires(T coro, std::coroutine_handle<> handle) {
+  { coro.await_ready() } -> std::same_as<bool>;
+  { coro.await_suspend(handle) };
+  { coro.await_resume() };
+};

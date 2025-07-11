@@ -33,8 +33,7 @@ inline constexpr auto PHI64 = std::numbers::phi_v<double>;
 } // namespace MATH
 
 export namespace consteval_context {
-constexpr auto fib(std::integral auto n)
-{
+constexpr auto fib(std::integral auto n) {
   if consteval {
     if (n <= 1)
       return n;
@@ -42,9 +41,8 @@ constexpr auto fib(std::integral auto n)
   } else {
     std::vector<int> fib{0, 1};
     while (fib.size() <= n) {
-      fib.push_back(fib[fib.size() - 1] +
-                        fib[fib.size() - 2]);
-  }
+      fib.push_back(fib[fib.size() - 1] + fib[fib.size() - 2]);
+    }
     return fib[n];
   }
 }
@@ -53,7 +51,11 @@ constexpr auto fib(std::integral auto n)
 
 export namespace math {
 
-consteval float to_radians(float degrees) { return degrees * MATH::PI32 / 180.0f; }
-consteval float to_degrees(float radians) { return radians * 180.0f / MATH::PI32; }
+consteval float to_radians(float degrees) {
+  return degrees * MATH::PI32 / 180.0f;
+}
+consteval float to_degrees(float radians) {
+  return radians * 180.0f / MATH::PI32;
+}
 
 } // namespace math

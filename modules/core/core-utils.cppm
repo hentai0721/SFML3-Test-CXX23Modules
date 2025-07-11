@@ -3,7 +3,8 @@ import std;
 import sfml;
 import :coroutines;
 
-export inline constexpr auto CACHE_LINE_SIZE = std::hardware_destructive_interference_size;
+export inline constexpr auto CACHE_LINE_SIZE =
+    std::hardware_destructive_interference_size;
 
 export namespace hentai {
 
@@ -34,5 +35,4 @@ private:
 template <std::unsigned_integral auto TIME>
 Task<std::string> zoned_time_sequence(std::size_t size);
 
-}
-
+} // namespace hentai
