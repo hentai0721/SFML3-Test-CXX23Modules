@@ -8,13 +8,13 @@ export namespace hentai {
 template <hasChrono T> class await {
 public:
   consteval explicit await(T _setTime) noexcept : setTime(_setTime) {}
-  consteval bool await_ready() noexcept { return false; }
+  constexpr bool await_ready() noexcept { return false; }
   constexpr void await_suspend(std::coroutine_handle<> handle) noexcept {
     std::this_thread::sleep_for(setTime);
     if (handle && !handle.done())
       handle.resume();
   }
-  consteval void await_resume() noexcept {}
+  constexpr void await_resume() noexcept {}
 
 private:
   T setTime;
@@ -39,11 +39,11 @@ public:
       return {};
     }
 
-    consteval auto await_transform(hasAwait auto time) {
+    constexpr auto await_transform(hasAwait auto time) {
       return decltype(time){time};
     }
 
-    consteval void return_void() noexcept {}
+    constexpr void return_void() noexcept {}
 
   private:
     friend class Task<T>;
