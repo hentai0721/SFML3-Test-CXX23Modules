@@ -35,11 +35,15 @@ public:
     [[noreturn]] void unhandled_exception() { std::terminate(); }
 
     constexpr std::suspend_always yield_value(auto &&value) noexcept {
-      current_value = std::forward<decltype(value)>(value);
+      if(current_value.has_value()) [[likely]] {
+        current_value = std::forward<decltype(value)>(value);
+      } else [[unlikely]] {
+        current_value.emplace( std::forward<decltype(value)>(value) );
+      }
       return {};
     }
 
-    constexpr auto await_transform(hasAwait auto time) {
+    constexpr auto await_transform(hasAwait auto time) noexcept {
       return time;
     }
 
