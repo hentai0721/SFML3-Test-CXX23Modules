@@ -40,7 +40,7 @@ public:
     }
 
     constexpr auto await_transform(hasAwait auto time) {
-      return decltype(time){time};
+      return time;
     }
 
     constexpr void return_void() noexcept {}
@@ -73,9 +73,12 @@ public:
   }
 
   [[nodiscard("hentai!!!")]] auto has_value() -> bool {
-    if (handle && !handle.done())
+    if (handle && !handle.done()) [[likely]] {
       handle.resume();
-    return !handle.done();
+      return true;
+    } else [[unlikely]] {
+      return false;
+    }
   }
 
   [[nodiscard("hentai!!!")]] auto current_value() -> std::optional<T> {
@@ -120,9 +123,12 @@ public:
   };
 
   iterator begin() {
-    if (handle && !handle.done())
+    if (handle && !handle.done()) {
       handle.resume();
-    return iterator{handle};
+      return iterator{handle};
+    } else {
+      return iterator{nullptr};
+    }
   }
 
   std::default_sentinel_t end() { return {}; }
