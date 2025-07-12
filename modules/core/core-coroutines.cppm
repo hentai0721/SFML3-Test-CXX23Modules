@@ -65,6 +65,19 @@ public:
     return *this;
   }
 
+  constexpr explicit operator bool() const noexcept {
+    if (handle && !handle.done()) [[likely]] {
+      handle.resume();
+      return !handle.done();
+    } else [[unlikely]] {
+      return false;
+    }
+  }
+
+  T& operator*() const noexcept {
+    return *handle.promise().current_value;
+  }
+
   explicit Task(std::coroutine_handle<promise_type> _handle)
       : handle(_handle) {}
   ~Task() {
@@ -75,7 +88,7 @@ public:
   [[nodiscard("hentai!!!")]] auto has_value() -> bool {
     if (handle && !handle.done()) [[likely]] {
       handle.resume();
-      return true;
+      return !handle.done();
     } else [[unlikely]] {
       return false;
     }
