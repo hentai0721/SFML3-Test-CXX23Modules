@@ -30,8 +30,8 @@ public:
     constexpr auto get_return_object() {
       return Task{std::coroutine_handle<promise_type>::from_promise(*this)};
     }
-    std::suspend_always initial_suspend() { return {}; }
-    std::suspend_always final_suspend() noexcept { return {}; }
+    constexpr std::suspend_always initial_suspend() noexcept { return {}; }
+    constexpr std::suspend_always final_suspend() noexcept { return {}; }
     [[noreturn]] void unhandled_exception() { std::terminate(); }
 
     constexpr std::suspend_always yield_value(auto &&value) noexcept {
@@ -114,10 +114,9 @@ public:
     using pointer = T *;
     using reference = T &;
 
-    explicit iterator(std::coroutine_handle<promise_type> _handle)
+    explicit iterator(std::coroutine_handle<promise_type> _handle) noexcept
         : handle(_handle) {}
-    reference operator*() const { return *handle.promise().current_value; }
-    pointer operator->() const { return &*handle.promise().current_value; }
+    reference operator*() const noexcept { return *handle.promise().current_value; }
 
     iterator &operator++() {
       if (handle && !handle.done())
@@ -125,13 +124,11 @@ public:
       return *this;
     }
 
-    iterator operator++(int) {
-      iterator tmp = *this;
+    void operator++(int) {
       ++(*this);
-      return tmp;
     }
 
-    friend bool operator==(const iterator &it, std::default_sentinel_t) {
+    friend bool operator==(const iterator &it, std::default_sentinel_t) noexcept {
       return !it.handle || it.handle.done();
     }
 
@@ -148,10 +145,10 @@ public:
     }
   }
 
-  std::default_sentinel_t end() { return {}; }
+  std::default_sentinel_t end() const noexcept { return {}; }
 
 private:
-  std::coroutine_handle<promise_type> handle;
+  std::coroutine_handle<promise_type> handle{nullptr};
 };
 
 } // namespace hentai

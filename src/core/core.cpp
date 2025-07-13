@@ -29,11 +29,8 @@ static hentai::Task<int> test(int n){
 }
 
 void hentai::exec() {
-  {
-    auto tt = test(39);
-    for(auto i : tt | std::views::drop(30))
-      std::println("msg => {}", i);
-  }
+  for(auto i : test(39) | std::views::drop(30))
+    std::println("msg => {}", i);
   sf::ContextSettings settings;
   settings.antiAliasingLevel = 8;
   sf::RenderWindow window{sf::VideoMode({800, 600}), L"変態",
