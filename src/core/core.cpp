@@ -23,14 +23,7 @@ hentai::Task<std::string> hentai::zoned_time_sequence(std::size_t size) {
 }
 
 
-static hentai::Task<int> test(int n){
-  for(int i = 0; i < n ; ++i)
-    co_yield i;
-}
-
-void hentai::exec() {
-  for(auto i : test(39) | std::views::drop(30))
-    std::println("msg => {}", i);
+extern "C++" void hentai::exec() {
   sf::ContextSettings settings;
   settings.antiAliasingLevel = 8;
   sf::RenderWindow window{sf::VideoMode({800, 600}), L"変態",

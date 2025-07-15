@@ -33,13 +33,13 @@ inline constexpr auto PHI64 = std::numbers::phi_v<double>;
 } // namespace MATH
 
 export namespace consteval_context {
-constexpr auto fib(std::integral auto n) {
+constexpr std::uint64_t fib(std::integral auto n) {
   if consteval {
     if (n <= 1)
       return n;
     return fib(n - 1) + fib(n - 2);
   } else {
-    std::vector<int> fib{0, 1};
+    std::vector<std::uint64_t> fib{0, 1};
     while (fib.size() <= n) {
       fib.push_back(fib[fib.size() - 1] + fib[fib.size() - 2]);
     }

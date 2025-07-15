@@ -17,7 +17,14 @@ add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>)
 
 add_executable(hentai WIN32)
 
+add_library(libhentai SHARED)
+
 target_sources(hentai
+    PRIVATE
+    src/main.cpp
+)
+
+target_sources(libhentai
     PUBLIC
     FILE_SET modules TYPE CXX_MODULES FILES
     modules/core/core.cppm 
@@ -25,19 +32,27 @@ target_sources(hentai
     modules/core/core-coroutines.cppm 
     modules/core/core-math.cppm 
     modules/core/core-ui.cppm 
-    modules/core/core-utils.cppm 
+    modules/core/core-utils.cppm
     modules/sfml/sfml.cppm
 
     PRIVATE
-    src/core/core.cpp 
-    src/main.cpp
+    src/core/core.cpp
 )
+
 
 add_custom_target(run
     COMMAND $<TARGET_FILE:hentai>
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     DEPENDS hentai
 )
+
+
+set_target_properties(libhentai PROPERTIES PREFIX ""
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}"
+)
+
 
 set_target_properties(hentai PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
@@ -46,6 +61,10 @@ set_target_properties(hentai PROPERTIES
 )
 
 find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network Main)
-target_link_libraries(hentai PRIVATE SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network SFML::Main)
+target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network SFML::Main)
+target_link_libraries(hentai PRIVATE libhentai)
+target_compile_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,MINGW,GNU>>:-fvisibility=hidden>)
 target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,MINGW,GNU>>:-s -static>)
+target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,MINGW,GNU>>:-s -static>)
 target_link_options(hentai PRIVATE $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/OPT:REF /OPT:ICF /INCREMENTAL:NO>)
+target_link_options(libhentai PRIVATE $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/OPT:REF /OPT:ICF /INCREMENTAL:NO>)
