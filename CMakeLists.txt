@@ -37,6 +37,7 @@ target_sources(libhentai
 
     PRIVATE
     src/core/core.cpp
+    src/core/core-utils.cpp
 )
 
 

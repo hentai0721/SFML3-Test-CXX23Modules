@@ -32,6 +32,7 @@ private:
   sf::Clock clock;
 };
 
+
 template <std::unsigned_integral auto TIME>
 Task<std::string> zoned_time_sequence(std::size_t size);
 
