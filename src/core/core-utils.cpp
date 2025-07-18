@@ -40,7 +40,7 @@ void ShapeUtils::moveShape() {
       sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right)) {
     rectBox.rotate(sf::degrees(moveRotate));
     rectBox.move({moveSpeed * dt, 0.0f});
-    if (x_Pos > window.getSize().x + shapeSize_x) {
+    if (x_Pos > static_cast<float>(window.getSize().x) + shapeSize_x) {
       rectBox.setPosition({-rectBox.getSize().x, y_Pos});
     }
   }
@@ -57,7 +57,7 @@ void ShapeUtils::moveShape() {
       sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down)) {
     rectBox.rotate(sf::degrees(moveRotate));
     rectBox.move({0.0f, moveSpeed * dt});
-    if (y_Pos > window.getSize().y + shapeSize_y) {
+    if (y_Pos > static_cast<float>(window.getSize().y) + shapeSize_y) {
       rectBox.setPosition({x_Pos, -rectBox.getSize().y});
     }
   }

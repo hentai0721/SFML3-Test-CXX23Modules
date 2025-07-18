@@ -76,7 +76,7 @@ extern "C" void hentai::exec() {
   auto test1 = std::make_unique<ShapeUtils>(window);
 
   test0->create({50, 50},
-                {window.getSize().x / 2.0f, window.getSize().y / 2.0f},
+                {static_cast<float>(window.getSize().x) / 2.0f, static_cast<float>(window.getSize().y) / 2.0f},
                 {83, 148, 255}, {1000.0f, 15.0f});
   test1->create({50, 200}, {40, 50}, {156, 57, 241});
 
@@ -116,7 +116,6 @@ extern "C" void hentai::exec() {
         window.close();
       }
       if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-        [[assume(keyPressed)]];
         if (keyPressed->scancode == sf::Keyboard::Scancode::F4 &&
             keyPressed->alt)
           window.close();

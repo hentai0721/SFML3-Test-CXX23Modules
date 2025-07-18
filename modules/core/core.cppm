@@ -5,7 +5,7 @@ module;
 #    define HENTAI_ABI __cdecl
 #  else
 #     define HENTAI_API __declspec(dllexport)
-#     define HENTAI_ABI
+#     define HENTAI_ABI __cdecl
 #  endif
 #else
 #    define HENTAI_API __attribute__((visibility("default")))
@@ -21,12 +21,8 @@ export import :ui;
 export import :utils;
 export import :coroutines;
 
-export extern "C" {
-  namespace hentai {
-     HENTAI_API HENTAI_ABI void exec();
+export namespace hentai {
+  extern "C" {
+    HENTAI_API void HENTAI_ABI exec();
   }
 }
-
-
-
-
