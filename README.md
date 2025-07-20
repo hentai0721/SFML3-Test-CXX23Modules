@@ -62,6 +62,18 @@ cmake --build build --config Release
 cmake --build build --config Release --target run
 ```
 
+#### ───────────────────────────────────────────────────────────────────
+
+#### Makefile (MSYS2/Clang64)
+
+```sh
+make release -j$(nproc)
+```
+
+```sh
+make run
+```
+
 ## Notes
 
 - C++23 modules are still experimental in many toolchains. If you encounter build issues, try updating your compiler and CMake.
