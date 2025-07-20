@@ -36,7 +36,7 @@ cd SFML3-Test-CXX23Modules
 
 ### 1. Build
 
-#### Windows (MSVC)
+> #### ***Windows (MSVC)***
 
 ```sh
 cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="/path/to/SFML-3.0.1"
@@ -46,7 +46,7 @@ cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="/path/to/SFML-3.0
 cmake --build build --config Release
 ```
 
-#### MSYS2/Clang64
+> #### ***MSYS2/Clang64***
 
 ```sh
 cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
@@ -62,9 +62,7 @@ cmake --build build --config Release
 cmake --build build --config Release --target run
 ```
 
-#### ───────────────────────────────────────────────────────────────────
-
-#### Makefile (MSYS2/Clang64)
+> #### ***Makefile (MSYS2/Clang64)***
 
 ```sh
 make release -j$(nproc)
