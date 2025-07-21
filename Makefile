@@ -1,9 +1,8 @@
 CXX = clang++
-CXXFLAGS = -O3 -std=c++23 -march=native -fprebuilt-module-path=. -fprebuilt-module-path=$(RELEASE_PATH) --precompile
-CXXFLAGS_P = -O3 -std=c++23 -march=native -fprebuilt-module-path=. -fprebuilt-module-path=$(RELEASE_PATH)
-LDFLAGS = -static -Wl,-s,--no-insert-timestamp
+CXXFLAGS = -O3 -std=c++23 -march=native -fprebuilt-module-path=$(RELEASE_PATH) --precompile
+CXXFLAGS_P = -O3 -std=c++23 -march=native -fprebuilt-module-path=$(RELEASE_PATH)
+LDFLAGS = -static -Wl,-s,--no-insert-timestamp -mwindows
 TARGET = release/hentai.exe
-TARGET_D = debug/hentai.exe
 
 STDCPPM := $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
 
@@ -17,17 +16,14 @@ PCX := $(patsubst modules/core/%.cppm,release/%.pcm,$(foreach mod,$(wildcard mod
 
 OBJ := $(patsubst modules/sfml/%.cppm,release/%.pcm.o,$(wildcard modules/sfml/*.cppm)) $(patsubst modules/core/%.cppm,release/%.pcm.o,$(wildcard modules/core/*.cppm)) $(patsubst src/core/%.cpp,release/%.cpp.o,$(wildcard src/core/*.cpp)) $(patsubst src/%.cpp,release/%.cpp.o,$(wildcard src/*.cpp))
 
-DEBUG_PATH = debug/
 RELEASE_PATH = release/
 LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
-#vpath
-#.PRECIOUS: debug/%.pcm
 
 release: $(RELEASE_PATH) .WAIT release/std.pcm .WAIT $(TARGET)
 
 release/std.pcm: $(STDCPPM)
 	@$(CXX) -std=c++23 -O3 -march=native -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
-	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m'
+	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 
 $(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
 	@$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
@@ -56,7 +52,7 @@ run: release
 
 
 clean:
-	@rm -f $(DEBUG_PATH)* $(RELEASE_PATH)*
+	@rm -f $(RELEASE_PATH)*
 	@printf '\033[38;2;255;83;83mクリア完了\033[0m'
 
-.PHONY: debug clean release
+.PHONY: clean release run
