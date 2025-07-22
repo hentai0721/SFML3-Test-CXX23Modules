@@ -4,7 +4,8 @@ CXXFLAGS_P = -O3 -std=c++23 -march=native -fprebuilt-module-path=$(RELEASE_PATH)
 LDFLAGS = -static -Wl,-s,--no-insert-timestamp -mwindows
 TARGET = release/hentai.exe
 
-STDCPPM := $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
+STDCPPM = /clang64/share/libc++/v1/std.cppm
+#STDCPPM = $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
 
 PCM := $(patsubst modules/sfml/%.cppm,release/%.pcm,$(foreach mod,$(wildcard modules/sfml/*.cppm),$(if $(findstring sfml,$(mod)),$(mod)))) .WAIT
 PCM += $(patsubst modules/core/%.cppm,release/%.pcm,$(foreach mod,$(wildcard modules/core/*.cppm),$(if $(findstring core-concepts,$(mod)),$(mod)))) .WAIT
@@ -32,7 +33,7 @@ release/%.pcm: modules/sfml/%.cppm
 	@$(CXX) $(CXXFLAGS) -DSFML_STATIC -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 release/%.pcm: modules/core/%.cppm
-	@$(CXX) $(CXXFLAGS) -DSFML_STATIC -o $@ $<
+	@$(CXX) $(CXXFLAGS) -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 release/%.pcm.o: release/%.pcm
 	@$(CXX) $(CXXFLAGS_P) -c -o $@ $<
