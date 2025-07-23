@@ -18,7 +18,7 @@ jobs:
         with:
           msystem: CLANG64
           update: true
-          install: mingw-w64-clang-x86_64-toolchain base-devel git mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja
+          install: mingw-w64-clang-x86_64-toolchain base-devel git mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja mingw-w64-clang-x86_64-freetype
 
       - name: BUILD SFML3
         run: |
