@@ -1,0 +1,38 @@
+name: Build (MSYS2 Clang64 SFML3 CXX23 MODULES)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  msys2-clang64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: mingw-w64-clang-x86_64-toolchain base-devel git mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja
+
+      - name: BUILD SFML3
+        run: |
+          git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+          cd SFML
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/clang64 -DSFML_USE_SYSTEM_DEPS=ON -DSFML_USE_STATIC_STD_LIBS=ON
+          cmake --build build --config Release
+          cmake --build build --config Release --target install
+
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make release -j$(nproc)
