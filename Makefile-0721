@@ -12,16 +12,17 @@ PCM := release/std.pcm 				  \
 	   release/core-coroutines.pcm 	  \
 	   release/core-math.pcm 		  \
 	   release/core-utils.pcm 		  \
-	   release/core-ui.pcm 			  \
+	   release/core-ui.pcm			  \
 	   release/core.pcm
 
-OBJ := release/sfml.pcm.o 			  \
+OBJ := release/std.pcm.o			  \
+	   release/sfml.pcm.o			  \
 	   release/core-concepts.pcm.o 	  \
 	   release/core-coroutines.pcm.o  \
 	   release/core-utils.pcm.o 	  \
 	   release/core-math.pcm.o 		  \
 	   release/core-ui.pcm.o 		  \
-	   release/core.pcm.o 			  \
+	   release/core.pcm.o			  \
 	   release/core-utils.cpp.o 	  \
 	   release/core.cpp.o 			  \
 	   release/main.cpp.o
@@ -36,7 +37,7 @@ release/std.pcm: $(STDCPPM) | $(RELEASE_PATH)
 
 $(TARGET): $(PCM) $(OBJ)
 	$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
-release/sfml.pcm: modules/sfml/sfml.cppm release/std.pcm | release/std.pcm
+release/sfml.pcm: modules/sfml/sfml.cppm | release/std.pcm
 	$(CXX) $(CXXFLAGS) -DSFML_STATIC -o $@ $<
 release/core-concepts.pcm: modules/core/core-concepts.cppm | release/std.pcm
 	$(CXX) $(CXXFLAGS) -o $@ $<
@@ -51,6 +52,8 @@ release/core-ui.pcm: modules/core/core-ui.cppm | release/std.pcm release/sfml.pc
 release/core.pcm: modules/core/core.cppm | release/core-utils.pcm release/core-math.pcm
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
+release/std.pcm.o: release/std.pcm
+	$(CXX) $(CXXFLAGS_P) -c -o $@ $<
 release/sfml.pcm.o: release/sfml.pcm
 	$(CXX) $(CXXFLAGS_P) -c -o $@ $<
 release/core-concepts.pcm.o: release/core-concepts.pcm

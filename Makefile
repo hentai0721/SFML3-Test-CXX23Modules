@@ -20,10 +20,13 @@ OBJ := $(patsubst modules/sfml/%.cppm,release/%.pcm.o,$(wildcard modules/sfml/*.
 RELEASE_PATH = release/
 LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
 
-release: $(RELEASE_PATH) .WAIT release/std.pcm .WAIT $(TARGET)
+release: $(RELEASE_PATH) .WAIT release/std.pcm .WAIT release/std.pcm.o $(TARGET)
 
 release/std.pcm: $(STDCPPM)
 	@$(CXX) -std=c++23 -O3 -march=native -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
+	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
+release/std.pcm.o: release/std.pcm
+	@$(CXX) $(CXXFLAGS_P) -c -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 
 $(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
