@@ -39,4 +39,5 @@ jobs:
 
       - name: BUILD HENTAI-Makefile-0721
         run: |
+          make clean
           make -f Makefile-0721 release -j$(nproc)
