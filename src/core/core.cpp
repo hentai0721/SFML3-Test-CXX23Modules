@@ -4,7 +4,7 @@ module core;
 template <std::unsigned_integral auto TIME>
 
 hentai::Task<std::string> hentai::zoned_time_sequence(std::size_t size) {
-  for (std::size_t i = 0; i <= size; ++i) {
+  for (auto i = 0uz; i <= size; ++i) {
 #if !defined(_MSC_VER)
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);

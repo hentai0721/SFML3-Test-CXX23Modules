@@ -1,6 +1,5 @@
 export module core:coroutines;
 import std;
-import sfml;
 import :concepts;
 
 export namespace hentai {
