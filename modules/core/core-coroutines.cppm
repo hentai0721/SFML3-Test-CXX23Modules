@@ -35,7 +35,7 @@ public:
 
     constexpr std::suspend_always yield_value(auto &&value) noexcept {
       if(current_value.has_value()) [[likely]] {
-        current_value = std::forward<decltype(value)>(value);
+        *current_value = std::forward<decltype(value)>(value);
       } else [[unlikely]] {
         current_value.emplace( std::forward<decltype(value)>(value) );
       }
@@ -88,7 +88,8 @@ public:
       handle.destroy();
   }
 
-  [[nodiscard("hentai!!!")]] auto has_value() -> bool {
+  [[nodiscard("hentai!!!")]] 
+  auto has_value() -> bool {
     if (handle && !handle.done()) [[likely]] {
       handle.resume();
       return !handle.done();
@@ -97,9 +98,10 @@ public:
     }
   }
 
-  [[nodiscard("hentai!!!")]] auto current_value() -> std::optional<T> {
+  [[nodiscard("hentai!!!")]] 
+  auto current_value() -> std::optional<T> {
     if (handle && !handle.done()) [[likely]] {
-      return handle.promise().current_value;
+      return std::move(handle.promise().current_value);
     } else [[unlikely]] {
       return std::nullopt;
     }
