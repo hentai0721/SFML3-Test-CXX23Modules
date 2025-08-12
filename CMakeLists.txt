@@ -84,17 +84,17 @@ target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics 
 endif()
 
 if(WIN32)
-target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
-target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s -static>)
+target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
+target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s -static>)
 else()
-target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
-target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
+target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
+target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
 endif()
 
 
 target_link_libraries(hentai PRIVATE libhentai)
-target_compile_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-fvisibility=hidden -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion>)
-target_compile_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-Wall -Wextra -Wpedantic -Wreturn-type -Wconversion>)
+target_compile_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-fvisibility=hidden -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion>)
+target_compile_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-Wall -Wextra -Wpedantic -Wreturn-type -Wconversion>)
 target_compile_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/permissive- /W4>)
 target_compile_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/permissive- /W4>)
 target_link_options(hentai PRIVATE $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:/OPT:REF /OPT:ICF /INCREMENTAL:NO>)
