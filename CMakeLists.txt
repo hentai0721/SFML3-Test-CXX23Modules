@@ -84,8 +84,8 @@ target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics 
 endif()
 
 if(WIN32)
-target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
-target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s -static>)
+target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
+target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s -static>)
 else()
 target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
 target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
