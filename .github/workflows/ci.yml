@@ -56,11 +56,11 @@ jobs:
           sudo snap install cmake --classic
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
-          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release
           cmake --build build --config Release --target install
           cd ..
-          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DSFML_DIR=$HOME/install/lib/cmake/SFML/ -DCMAKE_BUILD_TYPE=Release
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DSFML_DIR=$HOME/install/lib/cmake/SFML/ -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
   build-archlinux:
