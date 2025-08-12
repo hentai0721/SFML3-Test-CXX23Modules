@@ -49,11 +49,11 @@ jobs:
       - name: BUILD linux-HENTAI-Cmake-Ninja
         run: |
           sudo apt update
-          sudo apt install -y git snapd ninja-build clang libc++-dev libc++abi-dev libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+          sudo apt install -y git snapd ninja-build clang-20 libc++-20-dev libc++abi-20-dev libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
           sudo snap install cmake --classic
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
-          cmake -G Ninja -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release
           cmake --build build --config Release --target install
           cd ..
