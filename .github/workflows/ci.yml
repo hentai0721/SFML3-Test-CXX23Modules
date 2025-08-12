@@ -41,3 +41,37 @@ jobs:
         run: |
           make clean
           make -f Makefile-0721 release -j$(nproc)
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD linux-HENTAI-Cmake-Ninja
+        run: |
+          sudo apt update
+          sudo apt install -y cmake ninja-build clang libsfml-dev
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+  build-archlinux:
+    runs-on: ubuntu-latest
+    container: archlinux/archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD archlinux-HENTAI-Cmake-Ninja
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm base-devel cmake ninja clang llvm llvm-libs lld sfml 
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD macos-HENTAI-Cmake-Ninja
+        run: |
+          brew update
+          brew install llvm cmake ninja sfml
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release

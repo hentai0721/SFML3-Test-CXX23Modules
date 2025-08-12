@@ -8,9 +8,9 @@ set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 set(CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:DebugDLL>")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-#set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
+set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if(WIN32)
     set(SFML_STATIC_LIBRARIES ON)
 else()
     set(SFML_STATIC_LIBRARIES OFF)
@@ -54,7 +54,7 @@ add_custom_target(run
 )
 
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if(WIN32)
 set_target_properties(libhentai PROPERTIES PREFIX ""
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}"
@@ -75,7 +75,7 @@ set_target_properties(hentai PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}"
 )
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if(WIN32)
 find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network Main)
 target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network SFML::Main)
 else()
@@ -83,7 +83,7 @@ find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network)
 target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network)
 endif()
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if(WIN32)
 target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
 target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s -static>)
 else()
