@@ -49,7 +49,7 @@ jobs:
       - name: BUILD linux-HENTAI-Cmake-Ninja
         run: |
           sudo apt update
-          sudo apt install -y git snapd ninja-build clang-20 libc++-20-dev libc++abi-20-dev libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+          sudo apt install -y git snapd ninja-build clang-19 libc++-19-dev libc++abi-19-dev libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
           sudo snap install cmake --classic
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
