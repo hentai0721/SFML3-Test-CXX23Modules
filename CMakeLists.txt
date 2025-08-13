@@ -8,7 +8,7 @@ set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 set(CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:DebugDLL>")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
+#set(CMAKE_PREFIX_PATH "C:/Users/henta/Downloads/SFML-3.0.1")
 
 if(WIN32)
     set(SFML_STATIC_LIBRARIES ON)
@@ -21,7 +21,7 @@ project(HENTAI LANGUAGES CXX)
 
 add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>)
 
-add_executable(hentai WIN32 MACOSX_BUNDLE)
+add_executable(hentai WIN32)
 
 add_library(libhentai SHARED)
 
