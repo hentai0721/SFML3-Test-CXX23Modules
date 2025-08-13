@@ -83,5 +83,5 @@ jobs:
         run: |
           brew update
           brew install llvm lld cmake ninja sfml
-          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_LINKER=/opt/homebrew/opt/lld/bin/ld64.lld -DCMAKE_CXX_FLAGS="-Wl,-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release -v
