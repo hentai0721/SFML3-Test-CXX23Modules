@@ -53,7 +53,7 @@ jobs:
           sudo snap install cmake --classic
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 20
+          sudo ./llvm.sh 20 all
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
