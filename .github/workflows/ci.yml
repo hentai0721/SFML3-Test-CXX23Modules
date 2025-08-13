@@ -32,6 +32,7 @@ jobs:
         run: |
           cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
+          cmake --build build --config Release --target run
 
       - name: BUILD HENTAI-Makefile
         run: |
@@ -62,6 +63,7 @@ jobs:
           cd ..
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DSFML_DIR=$HOME/install/lib/cmake/SFML/ -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
+          cmake --build build --config Release --target run
 
   build-archlinux:
     runs-on: ubuntu-latest
@@ -74,6 +76,7 @@ jobs:
           pacman -S --noconfirm base-devel cmake ninja clang llvm llvm-libs lld sfml 
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
+          cmake --build build --config Release --target run
 
   build-macos:
     runs-on: macos-latest
@@ -84,4 +87,5 @@ jobs:
           brew update
           brew install llvm lld cmake ninja sfml
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --config Release -v
+          cmake --build build --config Release
+          cmake --build build --config Release --target run
