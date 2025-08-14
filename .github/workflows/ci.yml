@@ -72,7 +72,7 @@ jobs:
 
       - name: BUILD HENTAI-Makefile
         run: |
-          make CXX=clang++-20 release -j$(nproc)
+          make CXX=clang++-20 STDCPPM=/usr/lib/llvm-20/share/libc++/v1/std.cppm release -j$(nproc)
 
   build-archlinux:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
       - name: BUILD archlinux-HENTAI-Cmake-Ninja
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld
+          pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld libx11 libxrandr libxcursor libxi freetype2 glew libsndfile
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
