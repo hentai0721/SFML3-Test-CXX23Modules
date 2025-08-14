@@ -85,7 +85,7 @@ run: release
 
 
 clean:
-	@rm -f $(RELEASE_PATH)*
-	@printf '\033[38;2;255;83;83mクリア完了\033[0m'
+	@rm -f release/
+	@printf '\033[38;2;255;83;83mクリア完了\033[0m\n'
 
 .PHONY: clean release run

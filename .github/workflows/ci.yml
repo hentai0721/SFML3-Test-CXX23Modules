@@ -63,6 +63,10 @@ jobs:
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DSFML_DIR=$HOME/install/lib/cmake/SFML/ -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make CXX=clang++-20 release -j$(nproc)
+
   build-archlinux:
     runs-on: ubuntu-latest
     container: archlinux/archlinux:latest
@@ -71,9 +75,19 @@ jobs:
       - name: BUILD archlinux-HENTAI-Cmake-Ninja
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm base-devel cmake ninja clang llvm llvm-libs lld sfml 
-          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release
+          pacman -S --noconfirm git base-devel cmake ninja clang llvm llvm-libs lld
+          git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+          cd SFML
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release
+          cmake --build build --config Release --target install
+          cd ..
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make release -j$(nproc)
 
   build-macos:
     runs-on: macos-latest
@@ -85,3 +99,7 @@ jobs:
           brew install llvm lld cmake ninja sfml
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make release -j$(nproc) --trace
