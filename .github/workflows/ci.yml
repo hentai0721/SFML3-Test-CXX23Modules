@@ -68,7 +68,7 @@ jobs:
           sudo cmake --build build --config Release --target install
           cd ..
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --config Release -v
+          cmake --build build --config Release
 
       - name: BUILD HENTAI-Makefile
         run: |
@@ -109,4 +109,4 @@ jobs:
 
       - name: BUILD HENTAI-Makefile
         run: |
-          gmake release -j$(gnproc) --trace
+          gmake release -j$(gnproc)

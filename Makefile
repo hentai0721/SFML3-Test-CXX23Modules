@@ -137,7 +137,7 @@ endif
 ifeq ($(shell file $$(which make) | awk '/Mach/ {found=1; exit} END {if (found) print "Mach"}'),Mach)
 CXX = /opt/homebrew/opt/llvm/bin/clang++
 CXXFLAGS = -isysroot $$(xcrun --show-sdk-path) -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
-CXXFLAGS_P = -isysroot $$(xcrun --show-sdk-path) -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH)
+CXXFLAGS_P = -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH)
 LDFLAGS = -Wl,-s
 TARGET = release/hentai
 
