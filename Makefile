@@ -73,8 +73,8 @@ CXXFLAGS_P = -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH)
 LDFLAGS = -Wl,-s
 TARGET = release/hentai
 
-#STDCPPM = /clang64/share/libc++/v1/std.cppm
-STDCPPM = $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
+STDCPPM = /usr/share/libc++/v1/std.cppm
+#STDCPPM = $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
 
 PCM := $(patsubst modules/sfml/%.cppm,release/%.pcm,$(foreach mod,$(wildcard modules/sfml/*.cppm),$(if $(findstring sfml,$(mod)),$(mod)))) .WAIT
 PCM += $(patsubst modules/core/%.cppm,release/%.pcm,$(foreach mod,$(wildcard modules/core/*.cppm),$(if $(findstring core-concepts,$(mod)),$(mod)))) .WAIT

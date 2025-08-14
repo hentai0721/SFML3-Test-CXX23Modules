@@ -54,6 +54,13 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
           sudo ./llvm.sh 20 all
+          wget http://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz
+          tar -xzf make-4.4.1.tar.gz
+          cd make-4.4.1
+          ./configure
+          make
+          sudo make install
+          cd ..
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/install -DBUILD_SHARED_LIBS=ON
@@ -61,7 +68,7 @@ jobs:
           cmake --build build --config Release --target install
           cd ..
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DSFML_DIR=$HOME/install/lib/cmake/SFML/ -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --config Release
+          cmake --build build --config Release -v
 
       - name: BUILD HENTAI-Makefile
         run: |
@@ -75,7 +82,7 @@ jobs:
       - name: BUILD archlinux-HENTAI-Cmake-Ninja
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm git base-devel cmake ninja clang llvm llvm-libs lld
+          pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld
           git clone --branch 3.0.1 https://github.com/SFML/SFML.git
           cd SFML
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
@@ -96,10 +103,10 @@ jobs:
       - name: BUILD macos-HENTAI-Cmake-Ninja
         run: |
           brew update
-          brew install llvm lld cmake ninja sfml
+          brew install llvm lld cmake ninja sfml coreutils make
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
       - name: BUILD HENTAI-Makefile
         run: |
-          make release -j$(nproc) --trace
+          gmake release -j$(gnproc) --trace
