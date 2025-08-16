@@ -1,3 +1,7 @@
+[![windows](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/windows.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/windows.yml)
+[![ubuntu](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ubuntu.yml)
+[![macos](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/macos.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/macos.yml)
+[![archlinux](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/archlinux.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/archlinux.yml)
 # HENTAI - SFML C++23 Modules Demo
 
 This project demonstrates using C++23 modules with [SFML 3.x](https://www.sfml-dev.org/) in a modern C++ application.
