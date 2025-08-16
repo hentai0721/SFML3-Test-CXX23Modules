@@ -124,7 +124,7 @@ run: release
 	./$(TARGET)
 
 clang-repl:
-	printf '%%lib libhentai.dll\nimport core;\nhentai::exec();' | clang-repl -Xcc=-O3 -Xcc=-std=c++23 -Xcc=-fprebuilt-module-path=release/
+	printf '%%lib ./libhentai.so\nimport core;\nhentai::exec();' | clang-repl -Xcc=-O3 -Xcc=-std=c++23 -Xcc=-fprebuilt-module-path=release/
 
 
 clean:
@@ -192,7 +192,7 @@ run: release
 	./$(TARGET)
 
 clang-repl:
-	printf '%%lib libhentai.dll\nimport core;\nhentai::exec();' | clang-repl -Xcc=-O3 -Xcc=-std=c++23 -Xcc=-fprebuilt-module-path=release/
+	printf '%%lib ./libhentai.dylib\nimport core;\nhentai::exec();' | clang-repl -Xcc=-O3 -Xcc=-std=c++23 -Xcc=-fprebuilt-module-path=release/
 
 
 clean:
