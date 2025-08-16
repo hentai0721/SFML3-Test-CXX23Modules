@@ -136,7 +136,7 @@ endif
 
 ifeq ($(shell file $$(which make) | awk '/Mach/ {found=1; exit} END {if (found) print "Mach"}'),Mach)
 CXX = /opt/homebrew/opt/llvm/bin/clang++
-CXXFLAGS = -isysroot $$(xcrun --show-sdk-path) -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
+CXXFLAGS = -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH)
 LDFLAGS = -Wl,-s
 TARGET = release/hentai
@@ -167,7 +167,7 @@ release/std.pcm.o: release/std.pcm
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 
 $(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
-	@$(CXX) $(OBJ) -isysroot $$(xcrun --show-sdk-path) -L/opt/homebrew/lib -fuse-ld=lld -o $@ $(LDFLAGS) $(LIBS)
+	@$(CXX) $(OBJ) -L/opt/homebrew/lib -fuse-ld=lld -o $@ $(LDFLAGS) $(LIBS)
 	@printf '\033[38;2;100;251;109mリンク中 $(OBJ) -> $@\033[0m\n'
 release/%.pcm: modules/sfml/%.cppm
 	@$(CXX) $(CXXFLAGS) -I/opt/homebrew/include -o $@ $<
