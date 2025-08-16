@@ -1,0 +1,40 @@
+name: ubuntu
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
+          sudo apt update
+          sudo apt install -y git snapd ninja-build libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+          sudo snap install cmake --classic
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20 all
+          wget http://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz
+          tar -xzf make-4.4.1.tar.gz
+          cd make-4.4.1
+          ./configure
+          make
+          sudo make install
+          cd ..
+          git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+          cd SFML
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
+          cmake --build build --config Release
+          sudo cmake --build build --config Release --target install
+          cd ..
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make CXX=clang++-20 STDCPPM=/usr/lib/llvm-20/share/libc++/v1/std.cppm release -j$(nproc)

@@ -1,5 +1,3 @@
-[![Build (MSYS2 Clang64 SFML3 CXX23 MODULES)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ci.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ci.yml)
-
 # HENTAI - SFML C++23 Modules Demo
 
 This project demonstrates using C++23 modules with [SFML 3.x](https://www.sfml-dev.org/) in a modern C++ application.

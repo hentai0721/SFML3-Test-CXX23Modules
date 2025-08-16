@@ -1,0 +1,30 @@
+name: archlinux
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-archlinux:
+    runs-on: ubuntu-latest
+    container: archlinux/archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld libx11 libxrandr libxcursor libxi freetype2 glew libsndfile
+          git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+          cd SFML
+          cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
+          cmake --build build --config Release
+          cmake --build build --config Release --target install
+          cd ..
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          make release -j$(nproc)

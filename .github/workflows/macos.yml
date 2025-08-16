@@ -1,0 +1,23 @@
+name: macos
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
+          brew update
+          brew install llvm lld cmake ninja sfml coreutils make
+          cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_EXE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_SHARED_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_MODULE_LINKER_FLAGS_INIT="-fuse-ld=lld" -DCMAKE_CXX_COMPILER_ID_ARG1=-resource-dir=$(brew --prefix llvm)/lib/c++ -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: BUILD HENTAI-Makefile
+        run: |
+          gmake release -j$(gnproc)
