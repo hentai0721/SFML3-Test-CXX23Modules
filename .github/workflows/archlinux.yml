@@ -12,7 +12,8 @@ jobs:
     container: archlinux/archlinux:latest
     steps:
       - uses: actions/checkout@v4
-      - name: BUILD HENTAI-Cmake-Ninja
+      
+      - name: INSTALL DEPENDENCIES
         run: |
           pacman -Syu --noconfirm
           pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld libx11 libxrandr libxcursor libxi freetype2 glew libsndfile
@@ -21,7 +22,9 @@ jobs:
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release
           cmake --build build --config Release --target install
-          cd ..
+
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 

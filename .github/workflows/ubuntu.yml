@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: BUILD HENTAI-Cmake-Ninja
+      
+      - name: INSTALL DEPENDENCIES
         run: |
           sudo apt update
           sudo apt install -y git snapd ninja-build libfreetype6-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
@@ -31,7 +32,9 @@ jobs:
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release
           sudo cmake --build build --config Release --target install
-          cd ..
+
+      - name: BUILD HENTAI-Cmake-Ninja
+        run: |
           cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
