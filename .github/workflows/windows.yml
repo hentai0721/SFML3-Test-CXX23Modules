@@ -18,13 +18,13 @@ jobs:
         with:
           msystem: CLANG64
           update: true
-          install: mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja base-devel git
+          install: mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja mingw-w64-clang-x86_64-7zip base-devel git
 
       - name: INSTALL MSVC
         run: |
           wget https://aka.ms/vs/17/release/vs_BuildTools.exe
           ./vs_BuildTools.exe --quiet --wait --norestart --nocache \
-          --installPath "/d/Program Files/Microsoft Visual Studio/2022" \
+          --installPath "D:\Program Files\Microsoft Visual Studio\2022" \
           --add "Microsoft.VisualStudio.Component.Roslyn.Compiler" \
           --add "Microsoft.Component.MSBuild" \
           --add "Microsoft.VisualStudio.Component.CoreBuildTools" \
@@ -46,12 +46,15 @@ jobs:
 
       - name: BUILD HENTAI-MSVC
         run: |
-          cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
-          cmake --build build --config Release
-          rm -rf build/
+          wget https://github.com/Kitware/CMake/releases/download/v4.1.0/cmake-4.1.0-windows-x86_64.zip
+          7z x cmake-4.1.0-windows-x86_64.zip
+          cmd //k "D:\Program Files\Microsoft Visual Studio\2022\VC\Auxiliary\Build\vcvars64.bat"
+          cmake-4.1.0-windows-x86_64\bin\cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
+          cmake-4.1.0-windows-x86_64\bin\cmake --build build --config Release
 
       - name: BUILD HENTAI-Cmake-Ninja
         run: |
+          rm -rf build/
           cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
