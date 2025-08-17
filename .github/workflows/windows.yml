@@ -30,7 +30,7 @@ jobs:
           --add "Microsoft.VisualStudio.Component.CoreBuildTools" \
           --add "Microsoft.VisualStudio.Workload.MSBuildTools" \
           --add "Microsoft.VisualStudio.Component.VC.Tools.x86.x64" \
-          --add "Microsoft.VisualStudio.Component.Windows10SDK.22621"
+          --add "Microsoft.VisualStudio.Component.Windows10SDK.19041"
 
       - name: BUILD SFML3
         run: |
@@ -46,12 +46,8 @@ jobs:
 
       - name: BUILD HENTAI-MSVC
         run: |
-          wget https://github.com/Kitware/CMake/releases/download/v4.1.0/cmake-4.1.0-windows-x86_64.zip
-          7z x cmake-4.1.0-windows-x86_64.zip
-          cmd
-          "D:\Program Files\Microsoft Visual Studio\2022\VC\Auxiliary\Build\vcvars64.bat"
-          cmake-4.1.0-windows-x86_64\\bin\\cmake -B build -G Ninja -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
-          cmake-4.1.0-windows-x86_64\\bin\\cmake --build build --config Release
+          cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
+          cmake --build build --config Release
 
       - name: BUILD HENTAI-Cmake-Ninja
         run: |
