@@ -48,8 +48,9 @@ jobs:
         run: |
           wget https://github.com/Kitware/CMake/releases/download/v4.1.0/cmake-4.1.0-windows-x86_64.zip
           7z x cmake-4.1.0-windows-x86_64.zip
-          cmd //k "D:\Program Files\Microsoft Visual Studio\2022\VC\Auxiliary\Build\vcvars64.bat"
-          cmake-4.1.0-windows-x86_64\\bin\\cmake -B build -G Ninja -DCMAKE_CXX_COMPILER="D:/Program Files/Microsoft Visual Studio/2022/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
+          cmd //k
+          call "D:\Program Files\Microsoft Visual Studio\2022\VC\Auxiliary\Build\vcvars64.bat"
+          cmake-4.1.0-windows-x86_64\\bin\\cmake -B build -G Ninja -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
           cmake-4.1.0-windows-x86_64\\bin\\cmake --build build --config Release
 
       - name: BUILD HENTAI-Cmake-Ninja
