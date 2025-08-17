@@ -17,12 +17,8 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: CLANG64
-          update: false
-
-      - name: INSTALL DEPENDENCIES
-        run: |
-          pacman -Syu --noconfirm
-          pacman -S --noconfirm mingw-w64-clang-x86_64-{toolchain,cmake,ninja} base-devel git
+          update: true
+          install: mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja base-devel git
 
       - name: INSTALL MSVC
         run: |
