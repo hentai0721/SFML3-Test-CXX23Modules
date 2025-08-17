@@ -24,7 +24,7 @@ jobs:
         run: |
           wget https://aka.ms/vs/17/release/vs_BuildTools.exe
           ./vs_BuildTools.exe --quiet --wait --norestart --nocache \
-          --installPath "C:\Program Files\Microsoft Visual Studio\2022" \
+          --installPath "/d/Program Files/Microsoft Visual Studio/2022" \
           --add "Microsoft.VisualStudio.Component.Roslyn.Compiler" \
           --add "Microsoft.Component.MSBuild" \
           --add "Microsoft.VisualStudio.Component.CoreBuildTools" \
