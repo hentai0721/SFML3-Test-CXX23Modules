@@ -18,7 +18,7 @@ jobs:
         with:
           msystem: CLANG64
           update: true
-          install: mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja mingw-w64-clang-x86_64-7zip base-devel git
+          install: mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-ninja base-devel git
 
       - name: INSTALL MSVC
         run: |

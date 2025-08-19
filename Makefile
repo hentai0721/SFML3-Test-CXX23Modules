@@ -160,7 +160,7 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 release: $(RELEASE_PATH) .WAIT release/std.pcm .WAIT release/std.pcm.o $(TARGET)
 
 release/std.pcm: $(STDCPPM)
-	@$(CXX) -isysroot $$(xcrun --show-sdk-path) -std=c++23 -O3 -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
+	@$(CXX) -std=c++23 -O3 -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 release/std.pcm.o: release/std.pcm
 	@$(CXX) $(CXXFLAGS_P) -c -o $@ $<
