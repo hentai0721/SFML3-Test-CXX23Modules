@@ -119,6 +119,10 @@ make release -j$(nproc)
 make run
 ```
 
+```sh
+😼
+```
+
 ## Notes
 
 - C++23 modules are still experimental in many toolchains. If you encounter build issues, try updating your compiler and CMake.
