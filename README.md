@@ -27,6 +27,49 @@ This project demonstrates using C++23 modules with [SFML 3.x](https://www.sfml-d
 - **Ninja**  
   Download from [ninja-build.org](https://ninja-build.org/) or use your package manager.
 
+> #### ***MSYS2/Clang64***
+
+```sh
+pacman -Syu
+```
+
+```sh
+pacman -S --noconfirm --needed mingw-w64-clang-x86_64-{toolchain,cmake,ninja} base-devel git
+```
+
+```sh
+git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+cd SFML
+cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/clang64 -DSFML_USE_STATIC_STD_LIBS=ON
+cmake --build build --config Release
+cmake --build build --config Release --target install
+```
+
+> #### ***MSVC***
+
+```sh
+wget https://aka.ms/vs/17/release/vs_BuildTools.exe
+```
+
+```sh
+./vs_BuildTools.exe --quiet --wait --norestart --nocache \
+--installPath "D:\Program Files\Microsoft Visual Studio\2022" \
+--add "Microsoft.VisualStudio.Component.Roslyn.Compiler" \
+--add "Microsoft.Component.MSBuild" \
+--add "Microsoft.VisualStudio.Component.CoreBuildTools" \
+--add "Microsoft.VisualStudio.Workload.MSBuildTools" \
+--add "Microsoft.VisualStudio.Component.VC.Tools.x86.x64" \
+--add "Microsoft.VisualStudio.Component.Windows10SDK.19041"
+```
+
+```sh
+git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+cd SFML
+cmake -B build -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=../SFML-3.0.1 -DSFML_USE_STATIC_STD_LIBS=ON
+cmake --build build --config Release
+cmake --build build --config Release --target install
+```
+
 
 ## Getting Started
 
@@ -66,7 +109,7 @@ cmake --build build --config Release
 cmake --build build --config Release --target run
 ```
 
-> #### ***Makefile (MSYS2/Clang64)***
+#### ***Makefile (MSYS2/Clang64)***
 
 ```sh
 make release -j$(nproc)
