@@ -15,7 +15,7 @@ jobs:
       - name: INSTALL DEPENDENCIES
         run: |
           sudo apt update
-          sudo apt install -y git snapd ninja-build build-essential libfreetype6 libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+          sudo apt install -y git snapd ninja-build build-essential libfreetype-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
           sudo snap install cmake --classic
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
