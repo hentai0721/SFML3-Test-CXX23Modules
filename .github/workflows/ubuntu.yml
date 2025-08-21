@@ -27,7 +27,7 @@ jobs:
           make
           sudo make install
           cd ..
-          git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+          git clone --branch 3.0.1 --depth 1 https://github.com/SFML/SFML.git
           cd SFML
           cmake -G Ninja -Bbuild -DCMAKE_C_COMPILER=clang-21 -DCMAKE_CXX_COMPILER=clang++-21 -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
           cmake --build build --config Release

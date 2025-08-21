@@ -27,7 +27,7 @@ pacman -S --noconfirm --needed mingw-w64-clang-x86_64-{toolchain,cmake,ninja} ba
 ```
 
 ```sh
-git clone --branch 3.0.1 https://github.com/SFML/SFML.git
+git clone --branch 3.0.1 --depth 1 https://github.com/SFML/SFML.git
 ```
 
 ```sh
