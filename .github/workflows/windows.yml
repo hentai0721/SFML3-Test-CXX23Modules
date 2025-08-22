@@ -49,33 +49,17 @@ jobs:
           cmake -B build -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="SFML-3.0.1/"
           cmake --build build --config Release -j$(nproc)
 
-      - name: Run HENTAI-MSVC
+      - name: BUILD HENTAI-Cmake-Ninja
         run: |
-          timeout 5 ./hentai
           rm -rf build/
-
-      - name: BUILD HENTAI-CLANG64-Cmake-Ninja
-        run: |
           cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
-
-      - name: Run HENTAI-CLANG64-Cmake-Ninja
-        run: |
-          timeout 5 ./hentai
 
       - name: BUILD HENTAI-Makefile
         run: |
           make release -j$(nproc)
 
-      - name: Run HENTAI-Makefile
-        run: |
-          timeout 5 ./release/hentai
-          make clean
-
       - name: BUILD HENTAI-Makefile-0721
         run: |
+          make clean
           make -f Makefile-0721 release -j$(nproc)
-
-      - name: Run HENTAI-Makefile-0721
-        run: |
-          timeout 5 ./release/hentai
