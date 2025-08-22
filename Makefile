@@ -16,35 +16,26 @@ TARGET = release/hentai.exe
 STDCPPM = /clang64/share/libc++/v1/std.cppm
 #STDCPPM = $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
 LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
-$(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
-	@$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
-	@printf '\033[38;2;100;251;109mリンク中 $(OBJ) -> $@\033[0m\n'
 endif
 
 ifeq ($(shell file $$(which make) | awk '/ELF/ {found=1; exit} END {if (found) print "ELF"}'),ELF)
 CXX = clang++
 CXXFLAGS = -stdlib=libc++ -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
-LDFLAGS = -Wl,-s
+LDFLAGS = -Wl,-s -stdlib=libc++ -fuse-ld=lld 
 TARGET = release/hentai
 STDCPPM = /usr/share/libc++/v1/std.cppm
 LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
-$(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
-	@$(CXX) $(OBJ) -stdlib=libc++ -fuse-ld=lld -o $@ $(LDFLAGS) $(LIBS)
-	@printf '\033[38;2;100;251;109mリンク中 $(OBJ) -> $@\033[0m\n'
 endif
 
 ifeq ($(shell file $$(which make) | awk '/Mach/ {found=1; exit} END {if (found) print "Mach"}'),Mach)
 CXX = /opt/homebrew/opt/llvm/bin/clang++
 CXXFLAGS = -I/opt/homebrew/include -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
-LDFLAGS = -Wl,-s
+LDFLAGS = -Wl,-s -L/opt/homebrew/lib -fuse-ld=lld
 TARGET = release/hentai
 STDCPPM = /opt/homebrew/opt/llvm/share/libc++/v1/std.cppm
 LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
-$(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
-	@$(CXX) $(OBJ) -L/opt/homebrew/lib -fuse-ld=lld -o $@ $(LDFLAGS) $(LIBS)
-	@printf '\033[38;2;100;251;109mリンク中 $(OBJ) -> $@\033[0m\n'
 endif
 
 RELEASE_PATH = release/
@@ -58,6 +49,9 @@ release/std.pcm.o: release/std.pcm
 	@$(CXX) $(CXXFLAGS_P) -c -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
 
+$(TARGET): $(PCM) .WAIT $(PCX) .WAIT $(OBJ)
+	@$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
+	@printf '\033[38;2;100;251;109mリンク中 $(OBJ) -> $@\033[0m\n'
 release/%.pcm: modules/sfml/%.cppm
 	@$(CXX) $(CXXFLAGS) -o $@ $<
 	@printf '\033[38;2;109;100;251mコンパイル中 $< -> $@\033[0m\n'
