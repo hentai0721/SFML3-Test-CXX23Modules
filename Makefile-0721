@@ -1,15 +1,38 @@
+ifeq ($(shell file $$(which make) | awk '/PE32/ {found=1; exit} END {if (found) print "PE32"}'),PE32)
 CXX = clang++
-CXXFLAGS = -O3 -std=c++23 -march=native -fprebuilt-module-path=$(RELEASE_PATH) --precompile
-CXXFLAGS_P = -O3 -std=c++23 -march=native -fprebuilt-module-path=$(RELEASE_PATH)
+CXXFLAGS = -DSFML_STATIC -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
+CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
 LDFLAGS = -static -Wl,-s,--no-insert-timestamp -mwindows
 TARGET = release/hentai.exe
-
 STDCPPM = /clang64/share/libc++/v1/std.cppm
+#STDCPPM = $(shell llvm-config --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
+LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
+endif
+
+ifeq ($(shell file $$(which make) | awk '/ELF/ {found=1; exit} END {if (found) print "ELF"}'),ELF)
+CXX = clang++
+CXXFLAGS = -stdlib=libc++ -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
+CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
+LDFLAGS = -Wl,-s -stdlib=libc++ -fuse-ld=lld 
+TARGET = release/hentai
+STDCPPM = /usr/share/libc++/v1/std.cppm
+LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
+endif
+
+ifeq ($(shell file $$(which make) | awk '/Mach/ {found=1; exit} END {if (found) print "Mach"}'),Mach)
+CXX = /opt/homebrew/opt/llvm/bin/clang++
+CXXFLAGS = -I/opt/homebrew/include -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
+CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
+LDFLAGS = -Wl,-s -L/opt/homebrew/lib -fuse-ld=lld
+TARGET = release/hentai
+STDCPPM = /opt/homebrew/opt/llvm/share/libc++/v1/std.cppm
+LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
+endif
 
 PCM := release/std.pcm 				  \
 	   release/sfml.pcm 			  \
-	   release/core-concepts.pcm 	  \
-	   release/core-coroutines.pcm 	  \
+	   release/core-concepts.pcm	  \
+	   release/core-coroutines.pcm	  \
 	   release/core-math.pcm 		  \
 	   release/core-utils.pcm 		  \
 	   release/core-ui.pcm			  \
@@ -17,28 +40,27 @@ PCM := release/std.pcm 				  \
 
 OBJ := release/std.pcm.o			  \
 	   release/sfml.pcm.o			  \
-	   release/core-concepts.pcm.o 	  \
+	   release/core-concepts.pcm.o	  \
 	   release/core-coroutines.pcm.o  \
-	   release/core-utils.pcm.o 	  \
+	   release/core-utils.pcm.o		  \
 	   release/core-math.pcm.o 		  \
 	   release/core-ui.pcm.o 		  \
 	   release/core.pcm.o			  \
-	   release/core-utils.cpp.o 	  \
+	   release/core-utils.cpp.o		  \
 	   release/core.cpp.o 			  \
 	   release/main.cpp.o
 
 RELEASE_PATH = release/
-LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
 
 release: $(RELEASE_PATH) release/std.pcm $(TARGET)
 
 release/std.pcm: $(STDCPPM) | $(RELEASE_PATH)
-	$(CXX) -std=c++23 -O3 -march=native -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
+	$(CXX) -std=c++23 -O3 -stdlib=libc++ -Wno-reserved-module-identifier --precompile -o $@ $<
 
 $(TARGET): $(PCM) $(OBJ)
 	$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LIBS)
 release/sfml.pcm: modules/sfml/sfml.cppm | release/std.pcm
-	$(CXX) $(CXXFLAGS) -DSFML_STATIC -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $<
 release/core-concepts.pcm: modules/core/core-concepts.cppm | release/std.pcm
 	$(CXX) $(CXXFLAGS) -o $@ $<
 release/core-coroutines.pcm: modules/core/core-coroutines.cppm | release/std.pcm release/sfml.pcm

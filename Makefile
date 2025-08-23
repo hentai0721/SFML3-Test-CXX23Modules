@@ -25,6 +25,7 @@ CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion 
 LDFLAGS = -Wl,-s -stdlib=libc++ -fuse-ld=lld 
 TARGET = release/hentai
 STDCPPM = /usr/share/libc++/v1/std.cppm
+#STDCPPM = $(shell llvm-config-21 --prefix | awk "{print \$$1 \"/share/libc++/v1/std.cppm\"}")
 LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 endif
 

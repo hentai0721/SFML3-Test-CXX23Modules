@@ -43,3 +43,8 @@ jobs:
       - name: BUILD HENTAI-Makefile
         run: |
           make CXX=clang++-21 STDCPPM=/usr/lib/llvm-21/share/libc++/v1/std.cppm release -j$(nproc)
+
+      - name: BUILD HENTAI-Makefile-0721
+        run: |
+          make clean
+          make -f Makefile-0721 CXX=clang++-21 STDCPPM=/usr/lib/llvm-21/share/libc++/v1/std.cppm release -j$(nproc)
