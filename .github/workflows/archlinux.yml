@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     container: archlinux/archlinux:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: INSTALL DEPENDENCIES
         run: |
