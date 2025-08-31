@@ -1,0 +1,12 @@
+/build/
+/release/
+/hentai
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.ifc
+*.pcm
+*.gcm

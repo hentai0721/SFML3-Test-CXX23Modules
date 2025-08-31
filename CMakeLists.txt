@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0.3...4.1.0)
+cmake_minimum_required(VERSION 4.0.3...4.1.1)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -81,19 +81,19 @@ set_target_properties(hentai PROPERTIES
 )
 
 if(WIN32)
-find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network Main)
-target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network SFML::Main)
+    find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network Main)
+    target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network SFML::Main)
 else()
-find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network)
-target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network)
+    find_package(SFML 3 REQUIRED COMPONENTS System Window Graphics Audio Network)
+    target_link_libraries(libhentai PUBLIC SFML::System SFML::Window SFML::Graphics SFML::Audio SFML::Network)
 endif()
 
 if(WIN32)
-target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
-target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s -static>)
+    target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s>)
+    target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU>>:-s -static>)
 else()
-target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
-target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
+    target_link_options(hentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
+    target_link_options(libhentai PRIVATE $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,GNU,AppleClang>>:-s>)
 endif()
 
 
