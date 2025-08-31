@@ -16,7 +16,7 @@ jobs:
       - name: INSTALL DEPENDENCIES
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld libx11 libxrandr libxcursor libxi freetype2 glew libsndfile
+          pacman -S --noconfirm vim git base-devel cmake ninja clang libc++ libc++abi llvm llvm-libs lld libx11 libxrandr libxcursor libxi freetype2 glew libsndfile
       
       - name: BUILD SFML3
         run: |
