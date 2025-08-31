@@ -15,6 +15,7 @@ jobs:
       - name: INSTALL DEPENDENCIES
         run: |
           brew update
+          brew uninstall cmake
           brew install llvm lld cmake ninja sfml coreutils make
 
       - name: BUILD HENTAI-Cmake-Ninja
