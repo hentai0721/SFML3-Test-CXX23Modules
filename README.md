@@ -2,7 +2,6 @@
 [![ubuntu](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/ubuntu.yml)
 [![macos](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/macos.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/macos.yml)
 [![archlinux](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/archlinux.yml/badge.svg)](https://github.com/hentai0721/SFML3-Test-CXX23Modules/actions/workflows/archlinux.yml)
-# HENTAI - SFML C++23 Modules Demo
 
 ## Requirements
 
@@ -13,6 +12,7 @@
 - **SFML3**
 - **Ninja** 1.13.0
 - **Make** 4.4.1
+- **Vim**
 
 ### Install Dependencies
 
@@ -23,7 +23,7 @@ pacman -Syu
 ```
 
 ```sh
-pacman -S --noconfirm --needed mingw-w64-clang-x86_64-{toolchain,cmake,ninja} base-devel git
+pacman -S --noconfirm --needed mingw-w64-clang-x86_64-{toolchain,cmake,ninja} base-devel vim git
 ```
 
 ```sh

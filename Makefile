@@ -7,7 +7,7 @@ PCX := $(patsubst modules/core/%.cppm,release/%.pcm,$(foreach mod,$(wildcard mod
 
 OBJ := $(patsubst modules/sfml/%.cppm,release/%.pcm.o,$(wildcard modules/sfml/*.cppm)) $(patsubst modules/core/%.cppm,release/%.pcm.o,$(wildcard modules/core/*.cppm)) $(patsubst src/core/%.cpp,release/%.cpp.o,$(wildcard src/core/*.cpp)) $(patsubst src/%.cpp,release/%.cpp.o,$(wildcard src/*.cpp))
 
-ifeq ($(shell xxd -l 2 -p $$(which make)),4d5a)
+ifeq ($(shell xxd -l 2 -p $$(command -v make)),4d5a)
 CXX = clang++
 CXXFLAGS = -DSFML_STATIC -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
@@ -18,7 +18,7 @@ STDCPPM = /clang64/share/libc++/v1/std.cppm
 LIBS = -lfreetype -lgdi32 -lopengl32 -lwinmm -lsfml-main -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-network-s -lsfml-system-s
 endif
 
-ifeq ($(shell xxd -l 4 -p $$(which make)),7f454c46)
+ifeq ($(shell xxd -l 4 -p $$(command -v make)),7f454c46)
 CXX = clang++
 CXXFLAGS = -stdlib=libc++ -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -O3 -std=c++23 -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
@@ -29,7 +29,7 @@ STDCPPM = /usr/share/libc++/v1/std.cppm
 LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 endif
 
-ifeq ($(shell xxd -l 4 -p $$(which gmake)),cffaedfe)
+ifeq ($(shell xxd -l 4 -p $$(command -v gmake || printf /dev/null)),cffaedfe)
 CXX = /opt/homebrew/opt/llvm/bin/clang++
 CXXFLAGS = -I/opt/homebrew/include -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)
