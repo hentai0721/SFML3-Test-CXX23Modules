@@ -19,7 +19,7 @@ STDCPPM = /usr/share/libc++/v1/std.cppm
 LIBS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 endif
 
-ifeq ($(shell xxd -l 4 -p $$(which make)),cffaedfe)
+ifeq ($(shell xxd -l 4 -p $$(which gmake)),cffaedfe)
 CXX = /opt/homebrew/opt/llvm/bin/clang++
 CXXFLAGS = -I/opt/homebrew/include -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH) --precompile
 CXXFLAGS_P = -O3 -std=c++23 -Wall -Wextra -Wpedantic -Wreturn-type -Wconversion -fprebuilt-module-path=$(RELEASE_PATH)

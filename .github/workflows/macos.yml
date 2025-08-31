@@ -25,7 +25,7 @@ jobs:
 
       - name: BUILD HENTAI-Makefile
         run: |
-          gmake release -j$(gnproc) --trace
+          gmake release -j$(gnproc)
 
       - name: BUILD HENTAI-Makefile-0721
         run: |
