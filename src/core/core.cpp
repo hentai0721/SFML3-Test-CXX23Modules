@@ -34,7 +34,7 @@ extern "C" void hentai::exec() {
   window.setVerticalSyncEnabled(true);
 
   sf::Font font;
-  if (!font.openFromFile("assets/font/arial.ttf"))
+  if (!font.openFromFile("assets/font/hentai.ttf"))
     return;
 
   font.setSmooth(true);
